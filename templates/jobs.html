@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">Scheduled jobs</h2>
+{% if not jobs %}
+  <p class="text-slate-400">No jobs scheduled yet.</p>
+{% else %}
+  <div class="overflow-auto rounded-lg border border-slate-800">
+    <table class="min-w-full text-sm">
+      <thead class="bg-slate-900 text-slate-300">
+        <tr>
+          <th class="text-left px-3 py-2">ID</th>
+          <th class="text-left px-3 py-2">Next run</th>
+          <th class="text-left px-3 py-2">Trigger</th>
+          <th class="text-left px-3 py-2">Info</th>
+          <th class="text-left px-3 py-2">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-800">
+        {% for j in jobs %}
+        <tr>
+          <td class="px-3 py-2 text-slate-400">{{ j.id }}</td>
+          <td class="px-3 py-2">{{ j.next_run_time }}</td>
+          <td class="px-3 py-2 text-slate-400">{{ j.trigger }}</td>
+          <td class="px-3 py-2">
+            {% if j.meta.type == 'once' %}
+              One-time at {{ j.meta.run_at }}
+            {% elif j.meta.type == 'interval' %}
+              Recurring every {{ j.meta.every_seconds }} seconds<br/>
+              Starts at {{ j.meta.start_at }}
+            {% endif %}
+            <div class="text-slate-400 text-xs">Targets: {{ j.meta.targets or '-' }} | Message: {{ j.meta.message_preview or '-' }}</div>
+          </td>
+          <td class="px-3 py-2">
+            <form action="/jobs/{{ j.id }}/cancel" method="post">
+              <button class="bg-slate-800 hover:bg-slate-700 transition text-slate-100 rounded-lg px-3 py-1.5" type="submit">Cancel</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
+<div class="mt-4">
+  <a class="bg-blue-600 hover:bg-blue-700 transition text-white rounded-lg px-4 py-2" href="/schedule">Create new job</a>
+</div>
+{% endblock %}
+
