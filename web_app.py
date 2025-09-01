@@ -105,10 +105,10 @@ async def verify_post(code: str = Form(...), password: Optional[str] = Form(None
         await client.sign_in(phone=phone, code=code)
     except SessionPasswordNeededError:
         if not password:
-            return RedirectResponse(url="/verify?error=رمز عبور 2FA لازم است", status_code=302)
+            return RedirectResponse(url="/verify?error=2FA password required", status_code=302)
         await client.sign_in(password=password)
     except Exception:
-        return RedirectResponse(url="/verify?error=کد نامعتبر است", status_code=302)
+        return RedirectResponse(url="/verify?error=Invalid code", status_code=302)
 
     return RedirectResponse(url="/schedule", status_code=302)
 
@@ -127,7 +127,7 @@ async def schedule_get(request: Request):
 
     groups = await fetch_groups(client)
     app.state.entity_cache = {str(d.entity.id): d.entity for d in groups}
-    group_list = [{"id": str(d.entity.id), "title": d.name or "(بدون نام)"} for d in groups]
+    group_list = [{"id": str(d.entity.id), "title": d.name or "(No title)"} for d in groups]
     return templates.TemplateResponse("schedule.html", {"request": request, "groups": group_list})
 
 

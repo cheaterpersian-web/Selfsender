@@ -1,18 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>ورود به اکانت تلگرام</h2>
-<form action="/send-code" method="post">
-    <label>API ID</label>
-    <input name="api_id" type="number" placeholder="مثلاً 123456" required />
-
-    <label>API HASH</label>
-    <input name="api_hash" type="text" placeholder="مثلاً abcd1234..." required />
-
-    <label>شماره موبایل (با کد کشور)</label>
-    <input name="phone" type="text" placeholder="مثلاً +98912..." required />
-
-    <button class="btn" type="submit">ارسال کد</button>
+<h2 class="text-xl font-semibold mb-4">Sign in to Telegram</h2>
+<form action="/send-code" method="post" class="space-y-3">
+  <div>
+    <label class="block text-slate-300 mb-1">API ID</label>
+    <input name="api_id" type="number" placeholder="e.g. 123456" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+  </div>
+  <div>
+    <label class="block text-slate-300 mb-1">API HASH</label>
+    <input name="api_hash" type="text" placeholder="e.g. abcd1234..." required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+  </div>
+  <div>
+    <label class="block text-slate-300 mb-1">Phone (with country code)</label>
+    <input name="phone" type="text" placeholder="e.g. +98912..." required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+  </div>
+  <div class="flex items-center gap-2">
+    <button class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 transition text-white rounded-lg px-4 py-2" type="submit">
+      Send code
+    </button>
+  </div>
 </form>
-<p class="muted">نکته: API ID و API HASH را از my.telegram.org بگیرید.</p>
+<p class="text-slate-400 text-sm mt-4">Get API ID and HASH from <a href="https://my.telegram.org" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noreferrer">my.telegram.org</a>.</p>
 {% endblock %}
 

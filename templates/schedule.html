@@ -1,52 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>زمانبندی ارسال پیام</h2>
-
-<form action="/schedule" method="post">
-    <label>گروهها</label>
-    <div style="max-height: 240px; overflow: auto; border: 1px solid #1f2937; border-radius: 8px; padding: 10px;">
-        {% for g in groups %}
-            <div>
-                <input type="checkbox" id="g{{ g.id }}" name="groups" value="{{ g.id }}" />
-                <label for="g{{ g.id }}">{{ g.title }}</label>
-            </div>
-        {% endfor %}
+<h2 class="text-xl font-semibold mb-4">Schedule message</h2>
+<form action="/schedule" method="post" class="space-y-4">
+  <div>
+    <label class="block text-slate-300 mb-1">Groups</label>
+    <div class="max-h-60 overflow-auto border border-slate-800 rounded-lg p-3 space-y-2 bg-slate-900/40">
+      {% for g in groups %}
+      <label class="flex items-center gap-2">
+        <input type="checkbox" name="groups" value="{{ g.id }}" class="accent-blue-600" />
+        <span class="text-slate-200">{{ g.title }}</span>
+      </label>
+      {% endfor %}
     </div>
+  </div>
 
-    <label>متن پیام</label>
-    <textarea name="message" rows="4" placeholder="متن پیام..." required></textarea>
+  <div>
+    <label class="block text-slate-300 mb-1">Message</label>
+    <textarea name="message" rows="4" placeholder="Type your message..." required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+  </div>
 
-    <label>نوع زمانبندی</label>
-    <div>
-        <label><input type="radio" name="stype" value="once" checked /> یکبار</label>
-        <label><input type="radio" name="stype" value="interval" /> تکرارشونده</label>
+  <div>
+    <label class="block text-slate-300 mb-1">Schedule type</label>
+    <div class="flex items-center gap-6 text-slate-300">
+      <label class="inline-flex items-center gap-2"><input type="radio" name="stype" value="once" checked class="accent-blue-600" />One-time</label>
+      <label class="inline-flex items-center gap-2"><input type="radio" name="stype" value="interval" class="accent-blue-600" />Recurring</label>
     </div>
+  </div>
 
-    <div id="onceFields">
-        <label>تاریخ و ساعت اجرا</label>
-        <input name="run_at" type="datetime-local" />
+  <div id="onceFields">
+    <label class="block text-slate-300 mb-1">Run at</label>
+    <input name="run_at" type="datetime-local" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+  </div>
+
+  <div id="intervalFields" style="display:none">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-slate-300 mb-1">Unit</label>
+        <select name="unit" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
+          <option value="minute">Minute</option>
+          <option value="hour">Hour</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-slate-300 mb-1">Every (units)</label>
+        <input name="every" type="number" min="1" value="1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+      </div>
     </div>
-
-    <div id="intervalFields" style="display:none">
-        <div class="row">
-            <div>
-                <label>واحد</label>
-                <select name="unit">
-                    <option value="minute">دقیقه</option>
-                    <option value="hour">ساعت</option>
-                </select>
-            </div>
-            <div>
-                <label>هر چند واحد؟</label>
-                <input name="every" type="number" min="1" value="1" />
-            </div>
-        </div>
-        <label>شروع پس از (ثانیه)</label>
-        <input name="start_after" type="number" min="0" value="5" />
+    <div class="mt-2">
+      <label class="block text-slate-300 mb-1">Start after (seconds)</label>
+      <input name="start_after" type="number" min="0" value="5" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600" />
     </div>
+  </div>
 
-    <button class="btn" type="submit">ذخیره زمانبندی</button>
-    <a class="btn secondary" href="/jobs">مشاهده کارها</a>
+  <div class="flex items-center gap-2">
+    <button class="bg-blue-600 hover:bg-blue-700 transition text-white rounded-lg px-4 py-2" type="submit">Save schedule</button>
+    <a class="bg-slate-800 hover:bg-slate-700 transition text-slate-100 rounded-lg px-4 py-2" href="/jobs">View jobs</a>
+  </div>
 </form>
 
 <script>
