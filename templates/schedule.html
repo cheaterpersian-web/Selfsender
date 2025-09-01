@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>زمانبندی ارسال پیام</h2>
+
+<form action="/schedule" method="post">
+    <label>گروهها</label>
+    <div style="max-height: 240px; overflow: auto; border: 1px solid #1f2937; border-radius: 8px; padding: 10px;">
+        {% for g in groups %}
+            <div>
+                <input type="checkbox" id="g{{ g.id }}" name="groups" value="{{ g.id }}" />
+                <label for="g{{ g.id }}">{{ g.title }}</label>
+            </div>
+        {% endfor %}
+    </div>
+
+    <label>متن پیام</label>
+    <textarea name="message" rows="4" placeholder="متن پیام..." required></textarea>
+
+    <label>نوع زمانبندی</label>
+    <div>
+        <label><input type="radio" name="stype" value="once" checked /> یکبار</label>
+        <label><input type="radio" name="stype" value="interval" /> تکرارشونده</label>
+    </div>
+
+    <div id="onceFields">
+        <label>تاریخ و ساعت اجرا</label>
+        <input name="run_at" type="datetime-local" />
+    </div>
+
+    <div id="intervalFields" style="display:none">
+        <div class="row">
+            <div>
+                <label>واحد</label>
+                <select name="unit">
+                    <option value="minute">دقیقه</option>
+                    <option value="hour">ساعت</option>
+                </select>
+            </div>
+            <div>
+                <label>هر چند واحد؟</label>
+                <input name="every" type="number" min="1" value="1" />
+            </div>
+        </div>
+        <label>شروع پس از (ثانیه)</label>
+        <input name="start_after" type="number" min="0" value="5" />
+    </div>
+
+    <button class="btn" type="submit">ذخیره زمانبندی</button>
+    <a class="btn secondary" href="/jobs">مشاهده کارها</a>
+</form>
+
+<script>
+const stypeInputs = document.querySelectorAll('input[name="stype"]');
+const onceFields = document.getElementById('onceFields');
+const intervalFields = document.getElementById('intervalFields');
+stypeInputs.forEach(r => r.addEventListener('change', () => {
+  if (document.querySelector('input[name="stype"]:checked').value === 'once') {
+    onceFields.style.display = 'block';
+    intervalFields.style.display = 'none';
+  } else {
+    onceFields.style.display = 'none';
+    intervalFields.style.display = 'block';
+  }
+}));
+</script>
+{% endblock %}
+

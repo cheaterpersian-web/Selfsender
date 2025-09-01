@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>تأیید کد</h2>
+{% if error %}<div class="error">{{ error }}</div>{% endif %}
+<p>کد ارسال شده به {{ phone }} را وارد کنید.</p>
+<form action="/verify" method="post">
+    <label>کد</label>
+    <input name="code" type="text" required />
+
+    <label>رمز عبور 2FA (در صورت نیاز)</label>
+    <input name="password" type="password" />
+
+    <button class="btn" type="submit">تأیید</button>
+    <a class="btn secondary" href="/">بازگشت</a>
+    
+</form>
+{% endblock %}
+

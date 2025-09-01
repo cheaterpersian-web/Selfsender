@@ -26,5 +26,19 @@ python3 -m venv .venv && ./.venv/bin/pip install --upgrade pip && ./.venv/bin/pi
 
 نکته: تا زمانی که برنامه باز است، زمان‌بندی‌ها اجرا می‌شوند. برای اجرا در پس‌زمینه از ابزارهایی مانند `tmux`, `screen`, یا `systemd` استفاده کنید.
 
+### نسخه وب (FastAPI)
+
+- نصب:‌
+```bash
+./.venv/bin/pip install -r requirements.txt
+```
+
+- اجرا:
+```bash
+./.venv/bin/uvicorn web_app:app --host 0.0.0.0 --port 8000
+```
+
+سپس در مرورگر به آدرس `http://localhost:8000` بروید. ابتدا API ID/HASH و شماره را وارد کنید، کد را تأیید کنید، سپس از صفحه زمان‌بندی گروه‌ها را انتخاب کرده و پیام را تنظیم نمایید. صفحه «کارها» وضعیت زمان‌بندی‌ها را نشان می‌دهد و امکان لغو هر کار را می‌دهد.
+
 # Selfsender
 Tets

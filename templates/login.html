@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>ورود به اکانت تلگرام</h2>
+<form action="/send-code" method="post">
+    <label>API ID</label>
+    <input name="api_id" type="number" placeholder="مثلاً 123456" required />
+
+    <label>API HASH</label>
+    <input name="api_hash" type="text" placeholder="مثلاً abcd1234..." required />
+
+    <label>شماره موبایل (با کد کشور)</label>
+    <input name="phone" type="text" placeholder="مثلاً +98912..." required />
+
+    <button class="btn" type="submit">ارسال کد</button>
+</form>
+<p class="muted">نکته: API ID و API HASH را از my.telegram.org بگیرید.</p>
+{% endblock %}
+
